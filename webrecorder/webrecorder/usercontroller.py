@@ -1,9 +1,12 @@
 
 import json
 import redis
+import requests
 import os
 
 from bottle import request, response
+
+from datetime import datetime
 
 from webrecorder.basecontroller import BaseController, wr_api_spec
 
@@ -21,6 +24,10 @@ class UserController(BaseController):
 
         self.default_user_desc = config['user_desc']
         self.allow_external = get_bool(os.environ.get('ALLOW_EXTERNAL', False))
+        self.oidc_url = os.environ.get('OIDC_URL')
+        self.oidc_client_id = os.environ.get('OIDC_CLIENT_ID')
+        self.oidc_client_secret = os.environ.get('OIDC_CLIENT_SECRET')
+        self.oidc_config = None
 
     def load_user(self, username=None):
         include_colls = get_bool(request.query.get('include_colls', False))
@@ -179,6 +186,72 @@ class UserController(BaseController):
             #self._raise_error(401, result.get('error', ''))
             response.status = 401
             return result
+
+        @self.app.get('/api/v1/auth/oidc')
+        def oidc():
+            """Authenticate users via OpenID Connect"""
+
+            if not self.oidc_url:
+                return self._raise_error(500, 'OIDC_URL not configured')
+            if not self.oidc_client_id:
+                return self._raise_error(500, 'OIDC_CLIENT_ID not configured')
+            if not self.oidc_client_secret:
+                return self._raise_error(500, 'OIDC_CLIENT_SECRET not configured')
+
+            redirect_uri = self.get_origin() + '/api/v1/auth/oidc'
+
+            if self.oidc_config is None:
+                config_url = self.oidc_url + '/.well-known/openid-configuration'
+                self.oidc_config = requests.get(config_url).json()
+
+            # Redirect to auth server which will redirect back passing us an auth code
+            code = request.query.getunicode('code')
+            if not code:
+                self.redirect(self.oidc_config['authorization_endpoint'] + '?' + urlencode({
+                    'client_id': self.oidc_client_id,
+                    'redirect_uri': redirect_uri,
+                    'response_type' : 'code'}))
+                return
+
+            # Exchange auth code for access token
+            token_response = requests.post(self.oidc_config['token_endpoint'], data={
+                'grant_type': 'authorization_code',
+                'code': code,
+                'redirect_uri': redirect_uri,
+                'client_id': self.oidc_client_id,
+                'client_secret': self.oidc_client_secret}).json()
+            access_token = token_response.get('access_token')
+
+            if access_token is None:
+                if token_response.get('error') == 'invalid_grant':
+                    # code is probably expired so retry
+                    self.redirect('/api/v1/auth/oidc')
+                    return
+                else:
+                    return self._raise_error(400, 'Error obtaining access token: ' +
+                            token_response.get('error_description', ''))
+
+            userinfo = requests.get(self.oidc_config['userinfo_endpoint'],
+                    headers={'Authorization': 'Bearer ' + access_token}).json()
+            username = userinfo['preferred_username']
+
+            self.user_manager.access.log_in(username, False)
+
+            if username not in self.user_manager.all_users:
+                # we must be logged in first (even if the user doesn't exist yet!)
+                # because user write permission is only assigned to superusers or the user itself
+                self.user_manager.all_users[username] = {
+                        'role': 'archivist',
+                        'hash': '',
+                        'email_addr': userinfo['email'],
+                        'full_name': userinfo['name'],
+                        'creation_date': str(datetime.utcnow()),
+                        'last_login': str(datetime.utcnow())
+                }
+                self.user_manager.create_new_user(username,
+                        {'email': userinfo['email'], 'name': userinfo['name']})
+
+            self.redirect('/')
 
         @self.app.post('/api/v1/auth/logout')
         def logout():

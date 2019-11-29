@@ -141,19 +141,6 @@ class UserManagementUI extends PureComponent {
     return (
       <React.Fragment>
         <ul className="navbar-user-links">
-          {
-            isAnon &&
-              <li>
-                <Link to="/_faq">About</Link>
-              </li>
-          }
-
-          {
-            !__DESKTOP__ &&
-              <li className="navbar-text hidden-xs">
-              </li>
-          }
-
           <li className="hidden-xs">
             {
               __DESKTOP__ ?

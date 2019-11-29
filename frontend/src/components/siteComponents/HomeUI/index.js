@@ -81,12 +81,14 @@ class HomeUI extends PureComponent {
             </a>
           </figure>
           <div className="intro">
-            <h2>Webrecorder is a web archiving service to collect and revisit web pages.</h2>
+            <h2>Webrecorder is an open source archiving tool to collect and revisit web pages.</h2>
             <p>Webrecorder creates an interactive copy of any web page that you browse, including content revealed by your interactions such as playing video and audio, scrolling, clicking buttons, and so forth.</p>
 
             <div className="cta">
-              <button className="button-link" onClick={this.login} type="button">PANDAS Users Login</button>
+              <a href="/api/v1/auth/oidc>PANDAS Users Login</a>
             </div>
+
+            <p>This is a private instance of Webrecorder hosted by the <a href="https://www.nla.gov.au/">National Library of Australia</a> for use by <a href="http://pandora.nla.gov.au/">PANDORA partners</a>. <a href="http://pandora.nla.gov.au/contact.html">Contact us here</a></p>
 
             { supporterPortal && <div className="note">Webrecorder.io offers free accounts with 5GB of storage. Get more and contribute to Webrecorder's development by <a href={supporterPortal} target="_blank">becoming a supporter</a>.</div> }
 

@@ -19,11 +19,11 @@ function Footer() {
           <div className="col-xs-12 col-sm-6 project-info">
             <div className="links">
               <ul>
-                <li><Link to="/_faq">About the Webrecorder Project</Link></li>
+                <li><a href="http://pandora.nla.gov.au/contact.html" target="_blank">Contact Details</a></li>
                 <li><a href="https://guide.webrecorder.io/" target="_blank">User Guide</a></li>
               </ul>
               <ul>
-                <li><a href="https://github.com/webrecorder/webrecorder" aria-label="Github" target="_blank">Github</a></li>
+                <li><a href="https://github.com/nla/webrecorder" aria-label="Github" target="_blank">Github</a></li>
               </ul>
             </div>
             {
@@ -39,7 +39,7 @@ function Footer() {
                 </form>
             }
             <p>
-              This is a private instance of the Webrecorder web application hosted by the <a href="https://www.nla.gov.au/">National Library of Australia</a> for use by <a href="https://pandora.nla.gov.au/">PANDORA</a> partners.
+              This is a private instance of the <a href="https://webrecorder.io/">Webrecorder</a> web application hosted by the <a href="https://www.nla.gov.au/">National Library of Australia</a> for use by <a href="https://pandora.nla.gov.au/">PANDORA</a> partners.
             </p>
           </div>
 

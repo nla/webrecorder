@@ -21,14 +21,9 @@ function Footer() {
               <ul>
                 <li><Link to="/_faq">About the Webrecorder Project</Link></li>
                 <li><a href="https://guide.webrecorder.io/" target="_blank">User Guide</a></li>
-                <li><Link to="/_policies">Terms & Policies</Link></li>
               </ul>
               <ul>
-                <li><a href="https://blog.webrecorder.io" target="_blank">Blog</a></li>
-                <li><a href={`mailto:${supportEmail}`} className="contact">Contact</a></li>
-                <li><a href="https://twitter.com/webrecorder_io" aria-label="Twitter" target="_blank">Twitter</a></li>
                 <li><a href="https://github.com/webrecorder/webrecorder" aria-label="Github" target="_blank">Github</a></li>
-                <li><a href="https://rhizome.org" target="_blank">Rhizome.org</a></li>
               </ul>
             </div>
             {
@@ -44,7 +39,7 @@ function Footer() {
                 </form>
             }
             <p>
-              This instance of the Webrecorder web application is hosted by Rhizome at the New Museum. The Andrew W. Mellon Foundation is the lead supporter of the Webrecorder Initiative.
+              This is a private instance of the Webrecorder web application hosted by the <a href="https://www.nla.gov.au/">National Library of Australia</a> for use by <a href="https://pandora.nla.gov.au/">PANDORA</a> partners.
             </p>
           </div>
 

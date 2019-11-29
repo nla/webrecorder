@@ -151,7 +151,6 @@ class UserManagementUI extends PureComponent {
           {
             !__DESKTOP__ &&
               <li className="navbar-text hidden-xs">
-                <button onClick={this.toggleBugModal} className="borderless custom-report" type="button">Report Bug</button>
               </li>
           }
 
@@ -172,8 +171,7 @@ class UserManagementUI extends PureComponent {
 
           { !auth.get('loaded') || !username || (isAnon && collCount === 0) ?
             <React.Fragment>
-              <li><Link to="/_register">Sign Up</Link></li>
-              <li><button className="rounded login-link" onClick={this.showLogin} type="button">Login</button></li>
+              <li><a href="/api/v1/auth/oidc" className="rounded login-link">Login</a></li>
             </React.Fragment> :
             <li className="navbar-text">
               <DropdownButton pullRight id="user-dropdown" title={userDropdown} onToggle={this.toggleDropdown}>
@@ -217,7 +215,7 @@ class UserManagementUI extends PureComponent {
                     <React.Fragment>
                       <MenuItem divider />
                       <MenuItem href="https://guide.webrecorder.io/" target="_blank">User Guide</MenuItem>
-                      <MenuItem href="mailto:support@webrecorder.io" target="_blank">Contact Support</MenuItem>
+                      <MenuItem href="mailto:" target="_blank">Contact Support</MenuItem>
                       <MenuItem divider />
                       <MenuItem onClick={this.goToFAQ}>About Webrecorder</MenuItem>
                       <MenuItem href="https://blog.webrecorder.io" target="_blank">Webrecorder Blog</MenuItem>

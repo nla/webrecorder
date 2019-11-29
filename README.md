@@ -15,7 +15,7 @@ The release included [a significant  UX redesign](https://rhizome.org/editorial/
 
 * If you have any questions about how to use Webrecorder, please see our [User Guide](https://guide.webrecorder.io/).
 
-* If you have a question about your account on the hosted service (webrecorder.io), please contact us via email at [support@webrecorder.io](mailto:support@webrecorder.io)
+* If you have a question about your account on the hosted service (webrecorder.io), please contact us via email at [](mailto:)
 
 * If you have a previous Webrecorder installation (version 3.x), see [Migration Info](migrating-4.0.md) for instructions on how to migrate to the latest version.
 
@@ -233,7 +233,7 @@ For any general questions/concerns regarding the project or https://webrecorder.
 
 * Tweet to us at https://twitter.com/webrecorder_io
 
-* Contact us at support@webrecorder.io
+* Contact us at 
 
 * Ask questions via our Gitter channel at https://gitter.im/webrecorder/webrecorder
 

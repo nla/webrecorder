@@ -456,7 +456,7 @@ var BookmarkHiddenSwitch = (function() {
         var button = findButton(bookmarkInfo);
 
         removeSpinner(button);
-        FlashMessage.show("danger", "Uh oh.  Something went wrong while updating your bookmark.  Please try again later or <a href='mailto: support@webrecorder.io'>contact us</a>.");
+        FlashMessage.show("danger", "Uh oh.  Something went wrong while updating your bookmark.  Please try again later or <a href='mailto:'>contact us</a>.");
     }
 
     var getBookmarkInfoFromSuccessResponse = function(response) {
@@ -608,7 +608,7 @@ var RecordingMove = {
         },
         fail: function(xhr, collectionId) {
                 //var editingId = $(".editable-title[data-collection-id='" + collectionId + "']").attr('data-editing-id');
-                var message = "Uh oh.  Something went wrong with renaming this collection.  Please try again later or <a href='mailto: support@webrecorder.io'>contact us</a>."
+                var message = "Uh oh.  Something went wrong with renaming this collection.  Please try again later or <a href='mailto:'>contact us</a>."
                 FlashMessage.show("danger", message);
         }
 }

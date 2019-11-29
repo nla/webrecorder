@@ -98,7 +98,7 @@ export default Object.assign({
   ravenConfig: null,
   saveDelay: 1000,
   storageKey: 'wr__',
-  supportEmail: 'support@webrecorder.io',
+  supportEmail: '',
   supporterPortal: '',
   tagline: 'Create high-fidelity, interactive web archives of any web site you browse.',
   truncSentence: new RegExp(/([.!?])/),

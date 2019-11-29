@@ -79,7 +79,7 @@ class Help extends Component {
           <h5>How is this better than taking screen shots of my browser?</h5>
           <p>Screenshots are great, yet a web archive can provide much more context that reveals itself in interaction only.</p>
 
-          <h5>Contact</h5><p><a href="mailto:support@webrecorder.io">  support@webrecorder.io</a></p>
+          <h5>Contact</h5><p><a href="mailto:">  </a></p>
 
           <h5>Version Info</h5>
           <p id="stack-version" dangerouslySetInnerHTML={{ __html: version || 'Loading...' }} />

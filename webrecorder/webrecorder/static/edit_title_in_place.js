@@ -134,7 +134,7 @@ var EditTitleInPlace = (function() {
         },
         fail: function(xhr, collectionId) {
             var editingId = $(".editable-title[data-collection-id='" + collectionId + "']").attr('data-editing-id');
-            var message = "Uh oh.  Something went wrong with renaming this collection.  Please try again later or <a href='mailto: support@webrecorder.io'>contact us</a>."
+            var message = "Uh oh.  Something went wrong with renaming this collection.  Please try again later or <a href='mailto: '>contact us</a>."
             showError(editingId, message);
         }
     }
@@ -151,7 +151,7 @@ var EditTitleInPlace = (function() {
         },
         fail: function(xhr, textData, errorThrown, recordingId, attributes) {
             var editingId = "bookmark-" + recordingId + "-" + attributes.timestamp + "-" + attributes.url;
-            var message = "Uh oh.  Something went wrong with renaming this bookmark.  Please try again later or <a href='mailto: support@webrecorder.io'>contact us</a>."
+            var message = "Uh oh.  Something went wrong with renaming this bookmark.  Please try again later or <a href='mailto: '>contact us</a>."
             showError(editingId, message);
         }
     }
@@ -199,7 +199,7 @@ var EditTitleInPlace = (function() {
         },
         fail: function(xhr, recordingId) {
             var editingId = $(".card[data-recording-id='" + recordingId + "']").find('.editable-title').attr('data-editing-id');
-            var message = "Uh oh.  Something went wrong with renaming this recording.  Please try again later or <a href='mailto: support@webrecorder.io'>contact us</a>."
+            var message = "Uh oh.  Something went wrong with renaming this recording.  Please try again later or <a href='mailto: '>contact us</a>."
             showError(editingId, message);
         }
     }

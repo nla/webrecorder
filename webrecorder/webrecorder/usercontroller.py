@@ -204,32 +204,39 @@ class UserController(BaseController):
                 config_url = self.oidc_url + '/.well-known/openid-configuration'
                 self.oidc_config = requests.get(config_url).json()
 
-            # Redirect to auth server which will redirect back passing us an auth code
-            code = request.query.getunicode('code')
-            if not code:
-                self.redirect(self.oidc_config['authorization_endpoint'] + '?' + urlencode({
-                    'client_id': self.oidc_client_id,
-                    'redirect_uri': redirect_uri,
-                    'response_type' : 'code'}))
-                return
-
-            # Exchange auth code for access token
-            token_response = requests.post(self.oidc_config['token_endpoint'], data={
-                'grant_type': 'authorization_code',
-                'code': code,
-                'redirect_uri': redirect_uri,
-                'client_id': self.oidc_client_id,
-                'client_secret': self.oidc_client_secret}).json()
-            access_token = token_response.get('access_token')
-
-            if access_token is None:
-                if token_response.get('error') == 'invalid_grant':
-                    # code is probably expired so retry
-                    self.redirect('/api/v1/auth/oidc')
+            auth_header = request.headers.get('Authorization')
+            if auth_header and auth_header.lower().startswith('Bearer '):
+                # Use a bearer token in the auth header if we're given one
+                access_token = auth_header[len('Bearer '):]
+                # todo: general users probably should check aud to ensure this isn't a token reuse
+                # attack. In our case all token handling clients are equally trusted
+            else:
+                # Redirect to auth server which will redirect back passing us an auth code
+                code = request.query.getunicode('code')
+                if not code:
+                    self.redirect(self.oidc_config['authorization_endpoint'] + '?' + urlencode({
+                        'client_id': self.oidc_client_id,
+                        'redirect_uri': redirect_uri,
+                        'response_type' : 'code'}))
                     return
-                else:
-                    return self._raise_error(400, 'Error obtaining access token: ' +
-                            token_response.get('error_description', ''))
+
+                # Exchange auth code for access token
+                token_response = requests.post(self.oidc_config['token_endpoint'], data={
+                    'grant_type': 'authorization_code',
+                    'code': code,
+                    'redirect_uri': redirect_uri,
+                    'client_id': self.oidc_client_id,
+                    'client_secret': self.oidc_client_secret}).json()
+                access_token = token_response.get('access_token')
+
+                if access_token is None:
+                    if token_response.get('error') == 'invalid_grant':
+                        # code is probably expired so retry
+                        self.redirect('/api/v1/auth/oidc')
+                        return
+                    else:
+                        return self._raise_error(400, 'Error obtaining access token: ' +
+                                token_response.get('error_description', ''))
 
             userinfo = requests.get(self.oidc_config['userinfo_endpoint'],
                     headers={'Authorization': 'Bearer ' + access_token}).json()
